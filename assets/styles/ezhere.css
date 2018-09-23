@@ -1,0 +1,44 @@
+.ezhere {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+}
+
+.ezhere h1 {
+
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+
+.ezhere em {
+  font-size: 10vmin;
+  font-style: normal;
+   width: 10%;
+  text-align: center;
+}
+
+.ezhere em.planet {
+  -webkit-animation: planet-rotate 9s linear infinite;
+  animation: planet-rotate 9s linear infinite;
+  position: relative;
+   width: 10%;
+}
+
+
+@-webkit-keyframes planet-rotate {
+  to {
+    -webkit-transform: rotate(1turn);
+  }
+}
+
+@keyframes planet-rotate {
+  to {
+    transform: rotate(1turn);
+  }
+}
