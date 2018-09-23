@@ -21,3 +21,5 @@
 <!-- Material Design Bootstrap -->
 <link href=<?php echo '"'.$fat.'assets/beauty/type1/css/mdb.min.css"'?> rel="stylesheet">
 
+<link rel="shortcut icon" type="image/x-icon" href="<?php echo $fat.'assets/images/icon/icon.jpg'; ?>" />
+

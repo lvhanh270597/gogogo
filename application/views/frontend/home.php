@@ -30,7 +30,7 @@
                                         <li class=""><a class="menu-item waves-effect waves-light" href="">ĐH Bách Khoa</a></li>
                                         <li class=""><a class="menu-item waves-effect waves-light" href="">ĐH Nhân Văn</a></li>
                                         <li class=""><a class="menu-item waves-effect waves-light" href="">ĐH Quốc Tế</a></li>
-                                        <li class=""><a class="menu-item waves-effect waves-light" href="">ĐH Khoa Học Tự Nhiên</a></li>
+                                        <li class=""><a class="menu-item waves-effect waves-light" href="">ĐH Khoa Học Tự Nhiên</a></li>                                        
                                     </ul>
                                 </div>
                                 <div class="col-md-6 col-xl-3 sub-menu my-xl-5 mt-md-5 mt-4 mb-4">
@@ -86,7 +86,7 @@
                             <!--Image -->
                             <div class="view zoom  z-depth-1">
 
-                                <img src="https://mdbootstrap.com/img/Photos/Others/product2.jpg" class="img-fluid" alt="sample image">
+                                <img src="https://i.ytimg.com/vi/Te0V71sGoxA/maxresdefault.jpg" class="img-fluid" alt="sample image">
                                 <div class="mask rgba-white-light">
                                     <div class="dark-grey-text d-flex align-items-center pt-3 pl-4">
                                         <div>
@@ -125,6 +125,10 @@
                                     </li>
                                     <li class="list-group-item d-flex justify-content-between align-items-center">
                                         <a class="dark-grey-text font-small"><i class="fa fa-headphones dark-grey-text mr-3" aria-hidden="true"></i>ĐH Bách Khoa</a>
+                                        <span class="badge badge-danger badge-pill">37</span>
+                                    </li>
+                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                        <a class="dark-grey-text font-small"><i class="fa fa-headphones dark-grey-text mr-3" aria-hidden="true"></i>ĐH Quốc Tế</a>
                                         <span class="badge badge-danger badge-pill">37</span>
                                     </li>
                                     <li class="list-group-item d-flex justify-content-between align-items-center">

@@ -33,14 +33,14 @@
                             <div class="dropdown-menu dropdown-menu-right dropdown-cyan" aria-labelledby="navbarDropdownMenuLink-4">
                             <?php                            
                             if ($this->session->userdata('user_logged')){
-                                echo '<a class="dropdown-item waves-effect waves-light" href="'.base_url('edit_trip').'">Your trip</a>
-                                <a class="dropdown-item waves-effect waves-light" href="'.base_url('edit_profile').'">My account</a>
-                                <a class="dropdown-item waves-effect waves-light" href="'.base_url('logout').'">Log out</a>                                
+                                echo '<a class="dropdown-item waves-effect waves-light" href="'.base_url('edit_trip').'"><i class="fa fa-automobile" aria-hidden="true"></i><strong class="px-2">Your trip</strong></a>
+                                <a class="dropdown-item waves-effect waves-light" href="'.base_url('edit_profile').'"><i class="fa fa-user-circle-o" aria-hidden="true"></i><strong class="px-2">My account</strong></a>
+                                <a class="dropdown-item waves-effect waves-light" href="'.base_url('logout').'"><i class="fa fa-window-close" aria-hidden="true"></i><strong class="px-2">Log out </strong></a>                                
                             </div>';
                             }       
                             else{
-                                echo '<a class="dropdown-item waves-effect waves-light" href="'.base_url('login').'">Login</a>
-                                <a class="dropdown-item waves-effect waves-light" href="'.base_url('register').'">Register</a>
+                                echo '<a class="dropdown-item waves-effect waves-light" href="'.base_url('login').'"><i class="fa fa-upload" aria-hidden="true"></i><strong class="px-2">Login</strong></a>
+                                <a class="dropdown-item waves-effect waves-light" href="'.base_url('register').'"><i class="fa fa-registered" aria-hidden="true"></i><strong class="px-2">Register</strong></a>
                                 </div>';
                             }                                                     
                             ?>

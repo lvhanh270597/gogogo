@@ -15,7 +15,7 @@
                     <!--Grid column-->
                     <div class="col-md-6 col-lg-7 text-center text-md-right">
                         <!--Facebook-->
-                        <a class="fb-ic ml-0 px-2"><i class="fa fa-facebook white-text"> </i></a>
+                        <a class="fb-ic ml-0 px-2" href="https://www.facebook.com/hanh2705"><i class="fa fa-facebook white-text"> </i></a>
                         <!--Twitter-->
                         <a class="tw-ic px-2"><i class="fa fa-twitter white-text"> </i></a>
                         <!--Google +-->
@@ -39,10 +39,9 @@
 
                 <!--First column-->
                 <div class="col-md-3 col-lg-4 col-xl-3 mb-4">
-                    <h6 class="text-uppercase font-weight-bold"><strong>Company name</strong></h6>
+                    <h6 class="text-uppercase font-weight-bold"><strong>Easy Here</strong></h6>
                     <hr class="blue mb-4 mt-0 d-inline-block mx-auto" style="width: 60px;">
-                    <p>Here you can use rows and columns here to organize your footer content. Lorem ipsum dolor sit amet, consectetur
-                        adipisicing elit.</p>
+                    <p>Giải quyết vấn đề chuyên chở</p>                    
                 </div>
                 <!--/.First column-->
 
@@ -50,10 +49,7 @@
                 <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-4">
                     <h6 class="text-uppercase font-weight-bold"><strong>Products</strong></h6>
                     <hr class="blue mb-4 mt-0 d-inline-block mx-auto" style="width: 60px;">
-                    <p><a href="#!">MDBootstrap</a></p>
-                    <p><a href="#!">MDWordPress</a></p>
-                    <p><a href="#!">BrandFlow</a></p>
-                    <p><a href="#!">Bootstrap Angular</a></p>
+                    <p><a href="#!">Dịch vụ đi cùng nhau!</a></p>                   
                 </div>
                 <!--/.Second column-->
 
@@ -61,10 +57,7 @@
                 <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-4">
                     <h6 class="text-uppercase font-weight-bold"><strong>Useful links</strong></h6>
                     <hr class="blue mb-4 mt-0 d-inline-block mx-auto" style="width: 60px;">
-                    <p><a href="#!">Your Account</a></p>
-                    <p><a href="#!">Become an Affiliate</a></p>
-                    <p><a href="#!">Shipping Rates</a></p>
-                    <p><a href="#!">Help</a></p>
+                    <p><a href="<?php echo base_url('edit_profile'); ?>">Your Account</a></p>                    
                 </div>
                 <!--/.Third column-->
 
@@ -72,10 +65,9 @@
                 <div class="col-md-4 col-lg-3 col-xl-3">
                     <h6 class="text-uppercase font-weight-bold"><strong>Contact</strong></h6>
                     <hr class="blue mb-4 mt-0 d-inline-block mx-auto" style="width: 60px;">
-                    <p><i class="fa fa-home mr-3"></i> New York, NY 10012, US</p>
-                    <p><i class="fa fa-envelope mr-3"></i> info@example.com</p>
-                    <p><i class="fa fa-phone mr-3"></i> + 01 234 567 88</p>
-                    <p><i class="fa fa-print mr-3"></i> + 01 234 567 89</p>
+                    <p><i class="fa fa-home mr-3"></i> KTX B - DHQG, TP.HCM</p>
+                    <p><i class="fa fa-envelope mr-3"></i> lvhanh.270597@gmail.com</p>
+                    <p><i class="fa fa-phone mr-3"></i> + 84 165 300 1562</p>                    
                 </div>
                 <!--/.Fourth column-->
 

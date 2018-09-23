@@ -17,7 +17,13 @@ class Home extends CI_Controller {
         $map = array(
             'ĐH Nông Lâm' => 'https://www.iblue.vn/uploads/news/2016_03/logo-vecter-ai-dai-hoc-nong-lam.jpg',                        
             'ĐH Nhân Văn' => 'http://hcmussh.edu.vn/Resources/Images/HomePage/Logo%20USSH%20_Camrial.jpg',     
-            'ĐH Công Nghệ Thông Tin' => 'https://upload.wikimedia.org/wikipedia/commons/d/d0/Ho_Chi_Minh_City_University_of_Information_Technology.JPG',       
+            'ĐH Công Nghệ Thông Tin' => 'https://banqlcs.uit.edu.vn/sites/banqlcs/files/uploads/uit2.jpg',       
+            'ĐH Khoa Học Tự Nhiên' => 'https://image.giaoducthoidai.vn/Uploaded/vuongnt/2018-08-06/dh-kh--tu-nhien--tphcm-ACZC.jpg?width=500',
+            'ĐH Quốc Tế' => 'https://image3.tienphong.vn/665x449/Uploaded/2018/hztsl/2014_07_20/dai_hoc_cong_nghe_gqgw.jpg',
+            'ĐH Bách Khoa' => 'https://media.laodong.vn/Storage/NewsPortal/2018/8/5/623249/DH-BK-TPHCM.jpg?w=888&h=592&crop=auto&scale=both',
+            'ĐH Kinh Tế - Luật' => 'https://www.uel.edu.vn/Resources/Images/SubDomain/HomePage/GioiThieu/toa%20nha%20UEL.JPG',
+            'KTX A' => 'http://ktx.vnuhcm.edu.vn/upload/images/Hinh-san-pham/20130330_112802.jpg',
+            'KTX B' => 'http://ktx.vnuhcm.edu.vn/upload/images/Hinh-san-pham/11.JPG'
         );
         $data = array(
             'all' => $this->trip->get_all2(),
@@ -43,16 +49,23 @@ class Home extends CI_Controller {
         redirect('home');
     }
 
-    public function register(){                   
+    public function register(){   
+        $data = array(
+            'error' => ''
+        );                
         if ($this->input->post()){                                    
             //log in a customer and redirect to the main page if registration is successful
-            if($this->user_model->add()){	
-                $this->user_model->user_log_in($this->input->post('username'));
-                redirect(base_url());
-            }   
+            if ($data['error'] = $this->user_model->check()){
+                $data['error'] = '<div class="alert alert-danger"> <strong> Lỗi! </strong>'.$data['error'].'!</div>';
+            } else{
+                if($this->user_model->add()){	
+                    $this->user_model->user_log_in($this->input->post('username'));
+                    redirect(base_url());
+                }   
+            }
         }
         //load a view
-        display('register', null, true);
+        display('register', $data, true);
     }
 
     public function add_a_trip(){

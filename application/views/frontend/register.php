@@ -2,7 +2,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>Material Design Bootstrap</title>
+    <title>Register</title>
     <!-- Font Awesome -->
 
 <?php 
@@ -20,6 +20,7 @@
 
 <!-- Material Design Bootstrap -->
 <link href=<?php echo '"'.$fat.'assets/beauty/type2/css/mdb.min.css"'?> rel="stylesheet">
+<link rel="shortcut icon" type="image/x-icon" href="<?php echo $fat.'assets/images/icon/icon.jpg'; ?>" />
 
     <style>
         .intro-2 {
@@ -190,6 +191,7 @@
                                         </form>
 
                                         <div class="text-center mt-4">
+                                            <?php echo $error; ?>
                                             <button class="btn btn-light-blue btn-rounded waves-effect waves-light" type="submit" form="form_register">Sign up</button>
                                             <hr class="hr-light mb-3 mt-4">
 

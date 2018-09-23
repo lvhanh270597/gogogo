@@ -96,4 +96,24 @@ class User_model extends Quickaccess
 		}
 		return $result;
 	}
+
+	public function check(){
+		$error = array(
+			'username' => 'Bạn phải nhập Username',
+			'full_name' => 'Bạn phải nhập Tên đầy đủ',
+			'password' => 'Bạn phải nhập Mật khẩu',
+			'facebook' => 'Bạn phải nhập Địa chỉ Facebook',
+			'phone_num' => 'Bạn phải nhập Số điện thoại'
+		);
+		foreach ($this->editable_fields as $field){
+			if ($this->input->post($field) == null){
+				return $error[$field];
+			}
+		}
+		$user = $this->get_by_id($this->input->post('username'));
+		if ($user != null){
+			return 'Tên '.$this->input->post('username').' đã tồn tại.';
+		}
+		return null;
+	}
 }

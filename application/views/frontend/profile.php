@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="assets/beauty/profile/css/bootstrap.min.css">
     <!-- Material Design Bootstrap -->
     <link rel="stylesheet" href="assets/beauty/profile/css/mdb.min.css">
-
+    <link rel="shortcut icon" type="image/x-icon" href="<?php echo 'assets/images/icon/icon.jpg'; ?>" />
     <!-- Your custom styles (optional) -->
     <style>
         .card.card-cascade .view.gradient-card-header {
@@ -53,8 +53,10 @@
                             <div class="dropdown-menu dropdown-menu-right dropdown-cyan" aria-labelledby="navbarDropdownMenuLink-4">
                             <?php                            
                             if ($this->session->userdata('user_logged')){
-                                echo '<a class="dropdown-item waves-effect waves-light" href="'.base_url('edit_profile').'">My account</a>
-                                <a class="dropdown-item waves-effect waves-light" href="'.base_url('logout').'">Log out</a>
+                                echo '
+                                <a class="dropdown-item waves-effect waves-light" href="'.base_url('edit_trip').'"><i class="fa fa-automobile" aria-hidden="true"></i><strong class="px-2">Your trip</strong></a>
+                                <a class="dropdown-item waves-effect waves-light" href="'.base_url('edit_profile').'"><i class="fa fa-user-circle-o" aria-hidden="true"></i><strong class="px-2">My account</strong></a>
+                                <a class="dropdown-item waves-effect waves-light" href="'.base_url('logout').'"><i class="fa fa-window-close" aria-hidden="true"></i><strong class="px-2">Log out </strong></a>         
                             </div>';
                             }       
                             else{
