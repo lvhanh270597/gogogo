@@ -68,6 +68,14 @@ class Home extends CI_Controller {
         display('register', $data, true);
     }
 
+    public function users(){
+        $all = $this->user_model->get_all2();
+        $data = array(
+            'all' => $all
+        );
+        print_r($data);
+    }
+
     public function add_a_trip(){
 
         $trip = $this->trip->get_trip_from_boss($this->session->userdata('username'));
@@ -178,37 +186,5 @@ class Home extends CI_Controller {
         unset($user_info['balance']);
         display('user_detail', $user_info, true);
     }
-
-    public function become_a_shiper(){
-        $this->load->model('shipper');
-        if ($this->input->post()){            
-            $this->shipper->add_into(
-                array(
-                    'fb_address'    => $this->input->post('fb_address'),
-                    'user_id'       => $this->session->userdata('username')
-                )
-            );
-            echo 'OK';
-        }        
-        $this->load->view('public/become_shipper');
-    }
-
-//page with information about a product
-    public function product($id){
-        $this->load->model(array('product', 'imageProduct'));
-        $product = $this->product->get_by_id($id);
-        $images = $this->imageProduct->getImagesFromProductId($id); 
-        $data['product'] = $product;
-        $data['images'] = $images;                    
-        $this->load->product_template('show_product');
-    }
-
-    public function provider($provider_id){
-        $this->load->model(array('providers', 'product'));             
-        $instance = $this->providers->get_by_id($provider_id);
-        print_r($instance);          
-        $products = $this->product->get_from_provider($provider_id);
-        print_r($products);
-    }    
 
 }

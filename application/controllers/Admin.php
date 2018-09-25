@@ -7,24 +7,42 @@ class Admin extends CI_Controller {
 		parent::__construct();
 		$this->load->helper('layout');		
 		$this->load->model('user_model');
+		$this->load->model('admin_model');
 	}
 
 	public function index() {
+		if (!$this->session->userdata('admin_logged')){
+			redirect('admin/login');
+		}
+		redirect('user_control');
+	}
 
-		if ($this->input->post()){
-			$username = $this->input->post('username');
+	public function login(){
+		if ($username = $this->input->post('username')){
 			$password = $this->input->post('password');
-			if ($password == 'Xfam0usx'){
-				$this->session->set_userdata('admin', true);
+			if ($this->admin_model->check($username, $password)){
+				$this->session->set_userdata('username', $username);
+				$this->session->set_userdata('admin_logged', true);
+				redirect('admin') ;
 			}
 		}
-
-		display('login', null, true);
+		display('admin_login', null, true);
 	}
 
-	public function add_money($username, $money){
-		$this->user_model->add_money($username, $money);
+	public function create($username, $password){
+		if (!$this->session->userdata('admin_logged')) {
+			redirect('admin/login');
+		}
+		$this->admin_model->add_into(array(
+			'username' => $username,
+			'password' => $password
+		));
 		echo 'OK';
 	}
-	
+
+	public function logout(){
+		$this->session->sess_destroy();
+		redirect('admin/login');
+	} 
+
 }

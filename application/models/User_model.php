@@ -74,10 +74,10 @@ class User_model extends Quickaccess
 		}
 	}
 
-	public function set_index_value_with_id($userid, $index, $value){
+	public function set_attr($userid, $index, $value){
 		$query = $this->get_by_id($userid);
 		$query[$index] = $value;
-		$this->db->where('userid', $userid)->update('userid', $query);
+		$this->db->where('username', $userid)->update('users', $query);
 	}
 
 	public function add_money($userid, $money){		
@@ -86,16 +86,6 @@ class User_model extends Quickaccess
 		$this->db->where('username', $userid)->update('users', $query);		
 	}
 	
-
-	public function get_all_user_of_building($building){
-		$users = $this->get_all();
-		$result = array();
-		foreach ($users as $user) {
-			if ($this->address->get_building_of_user($user['username']) === $building)
-				array_push($result, $user['username']);
-		}
-		return $result;
-	}
 
 	public function check(){
 		$error = array(
