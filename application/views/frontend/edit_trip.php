@@ -202,7 +202,7 @@
                                     echo '
                                         <div class="col-md-12">'.'
                                             <strong> <a href="'.site_url('user/'.$request['id_guess']).'">'.$request['id_guess'].'</strong> </a> đã gửi yêu cầu đi chuyến của bạn!
-                                            <a href="'.site_url('home/verify/'.$boss.'/'.$request['id_guess']).'"> 
+                                            <a href="'.site_url('home/accept/'.$boss.'/'.$request['id_guess']).'"> 
                                                 <button class="btn btn-primary btn-rounded"> Accept </button>
                                             </a>
                                             <a href="'.site_url('home/deny_requests/'.$boss.'/'.$request['id_guess']).'"> 

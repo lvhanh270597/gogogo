@@ -43,7 +43,7 @@ class Home extends CI_Controller {
     }
 
 	public function index()
-	{
+	{        
         $map = array(
             'ĐH Nông Lâm' => 'https://www.iblue.vn/uploads/news/2016_03/logo-vecter-ai-dai-hoc-nong-lam.jpg',                        
             'ĐH Nhân Văn' => 'http://hcmussh.edu.vn/Resources/Images/HomePage/Logo%20USSH%20_Camrial.jpg',     
@@ -262,6 +262,29 @@ class Home extends CI_Controller {
     }
 
     // khi nhan vao Accept. No se vao Verify nay
+    function accept($boss, $guess){
+        $cur_user = $this->session->userdata('username');
+        if ($cur_user != $boss){
+            return ;
+        }
+        $trip = $this->trip->get_by_id($cur_user);
+        if ($trip == null){
+            return ;
+        }
+
+        $code = mt_rand(100000, 999999);
+        
+        $this->push_to_matched($boss, $guess, $code);
+        
+        $this->occupate_trip($trip);
+        
+        $this->delete_all_request($boss);
+
+        $this->delete_all_request_guess($guess);
+
+        redirect('edit_trip');
+    }
+
     function verify($boss, $guess){
         $cur_user = $this->session->userdata('username');
         if ($cur_user != $boss){
@@ -288,6 +311,65 @@ class Home extends CI_Controller {
         redirect('edit_trip');
     }
 
+    // xác nhận giao dịch 
+    function verify_transaction(){
+        $data = array(
+            'error' => '',
+            'success' => '' 
+        );
+        if ($this->input->post()){
+            $code = $this->input->post('code');
+            $data = $this->verify_code($code);
+        }
+        display('check_code', $data, true);
+    }
+    function verify_code($code){
+		$username = $this->session->userdata('username');
+        $match = $this->matched->get_matched_from_boss($username);
+        $error = '';
+        $success = '';
+		if ($match == null){
+            $error = 'Bạn chưa đi chuyến nào. Vậy nên chưa có mã nào cho bạn!';	
+            $error = '<div class="alert alert-danger"> <strong> Lỗi! </strong>'.$error.'!</div>';		
+		}
+		else{
+			if ($match['code'] == $code){
+                $guess = $match['id_guess'];
+                $boss = $match['id_boss'];
+                $trip = $this->trip->get_trip_from_boss($this->session->userdata('username')); 
+                $fee = 0.5;
+                $price = $trip['price'] + $fee;
+                
+                $this->transfer_money($guess, $boss, $price, $fee);
+                
+                // xoa matched va dua vao lich su <=> remove trip                       
+                $this->trip->delete($trip['id_boss']);
+                // push to history from matched                
+                $data = $this->matched->get_by_trip($boss);
+                if ($data != null){
+                    unset($trip['occup']);
+                    unset($trip['id_boss']);
+                    $data = array_merge($data, $trip);
+
+                    date_default_timezone_set('Asia/Ho_Chi_Minh');
+                    $date = date('Y-m-d h:i:s', time());
+
+                    $data['time'] = $date;
+                    $this->history->add_into($data);
+                }
+                // remove all matched and request
+                $this->request->delete_all_request($boss);
+                $this->matched->delete_all_from_boss($boss);
+                
+                $success = 'Bạn nhận được số tiền là '. (($price - $fee) * 1000).'đ';
+                $success = '<div class="alert alert-success"> <strong> Thành công! </strong>'.$success.'!</div>';
+			}
+        }
+        $data['error'] = $error;
+        $data['success'] = $success;
+        return $data;
+	}
+
     function delete_all_request($boss){
         $this->request->delete_all_request($boss);
     }
@@ -296,10 +378,11 @@ class Home extends CI_Controller {
         $this->request->delete_all_request_guess($guess);
     }
 
-    function push_to_matched($boss, $guess){
+    function push_to_matched($boss, $guess, $code){
         $item = array(
             'id_boss' => $boss,
             'id_guess' => $guess,
+            'code' => $code
         );
         $this->matched->add_into($item);    
     }

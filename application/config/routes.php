@@ -55,6 +55,7 @@ $route['logout'] = 'home/logout';
 $route['register'] = 'home/register';
 $route['checkout'] = 'home/checkout';
 $route['users'] = 'home/users';
+$route['verify_transaction'] = 'home/verify_transaction';
 $route['matches'] = 'home/matches';
 $route['prices'] = 'admin/prices';
 $route['edit_profile'] = 'profile/edit_profile';

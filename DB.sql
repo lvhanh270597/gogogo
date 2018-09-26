@@ -30,6 +30,7 @@ CREATE TABLE trips (
 CREATE TABLE matched (
 	id_boss VARCHAR(30) PRIMARY KEY,
 	id_guess VARCHAR(30),	
+	code INT NOT NULL,
 	FOREIGN KEY (id_boss) references users(username),
 	FOREIGN KEY (id_guess) references users(username)
 );
@@ -38,7 +39,6 @@ CREATE TABLE request (
 	id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
 	id_boss VARCHAR(30),
 	id_guess VARCHAR(30),
-
 	FOREIGN KEY (id_boss) references users(username),
 	FOREIGN KEY (id_guess) references users(username)
 );
@@ -47,6 +47,13 @@ CREATE TABLE history (
 	id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
 	id_boss VARCHAR(30),
 	id_guess VARCHAR(30),	
+	time DATETIME,
+	_from VARCHAR(200) NOT NULL,
+	_to VARCHAR(200) NOT NULL,
+	timestart VARCHAR(20),	
+	note VARCHAR(1000),
+	price FLOAT NOT NULL,
+	code INT NOT NULL,
 	FOREIGN KEY (id_boss) references users(username),
 	FOREIGN KEY (id_guess) references users(username)
 );

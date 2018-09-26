@@ -57,10 +57,6 @@ class Admin extends CI_Controller {
 		);  
 		$data = array('prices' => $address);
 		display('prices', $data, true);
-	}
-
-	public function verify_code($code){
-		$username
-	}
+	}	
 
 }
