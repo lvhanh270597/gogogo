@@ -1,6 +1,6 @@
 <?php
 require_once('Quickaccess.php');
-class Matched extends Quickaccess
+class History extends Quickaccess
 {
 
 	public $username;
@@ -12,7 +12,7 @@ class Matched extends Quickaccess
 	public $image;
 	public $bio;
 	protected $primary = 'id';
-	protected $db_table = 'matched';
+	protected $db_table = 'history';
 	protected $editable_fields = ['id_boss','id_guess'];
 
 	public function __construct()
@@ -27,13 +27,7 @@ class Matched extends Quickaccess
 
 	public function get_matched_from_guess($guess){
 		$query = $this->db->get_where($this->db_table, array('id_guess' => $guess));
-		if ($query->num_rows() == 0) return null;		
+		if ($query->num_rows() == 0) return null;
 		return $query->result_array()[0];
-	}
-
-	public function delete_all_from_boss($boss){
-		$this->db->delete($this->db_table, array(
-			'id_boss' => $boss
-		));
 	}
 }

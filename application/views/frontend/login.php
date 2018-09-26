@@ -178,6 +178,9 @@
                                     <label for="orangeForm-pass">Your password</label>
                                 </div>
                             </form>
+                                <div class="text-center mt-4">
+                                    <?php echo $error; ?>                                    
+                                </div>
                                 <div class="text-center">
                                     <button class="btn purple-gradient btn-lg waves-effect waves-light" type="submit" value="submit" form="form_login">Continue</button>
                                     <hr>
@@ -187,7 +190,6 @@
                                         <a class="p-2 m-2 fa-lg ins-ic"><i class="fa fa-instagram white-text"> </i></a>
                                     </div>
                                 </div>
-
                             </div>
                         </div>
                         <!--/Form with header-->

@@ -175,6 +175,26 @@
                                                 <input id="form3" class="form-control" type="text" name="facebook">
                                                 <label for="form3" class="white-text">Facebook</label>
                                             </div>
+
+                                            <div class="md-form">
+                                                <i class="fa fa-user prefix white-text"></i>
+                                                <input id="form3" class="form-control" type="text" name="mssv">
+                                                <label for="form3" class="white-text">Student ID</label>
+                                            </div>
+                                            
+                                            <div class="md-form">
+                                              <select class="browser-default custom-select mb-4" name="university">
+                                                <option value="" disabled selected>Bạn học trường nào?</option>
+                                                <option value="ĐH Nông Lâm">ĐH Nông Lâm</option>
+                                                <option value="ĐH Công Nghệ Thông Tin">ĐH Công Nghệ Thông Tin</option>
+                                                <option value="ĐH Quốc Tế" >ĐH Quốc Tế</option>
+                                                <option value="ĐH Khoa Học Tự Nhiên">ĐH Khoa Học Tự Nhiên</option>
+                                                <option value="ĐH Bách Khoa">ĐH Bách Khoa</option>
+                                                <option value="ĐH Kinh Tế - Luật">ĐH Kinh Tế - Luật</option>
+                                                <option value="ĐH Nhân Văn">ĐH Nhân Văn</option>                                                
+                                              </select>
+                                            </div>                                        
+
                                             <div class="md-form">
                                                 <i class="fa fa-user prefix white-text"></i>
                                                 <input id="form3" class="form-control" type="text" name="username">
@@ -185,8 +205,7 @@
                                                 <i class="fa fa-lock prefix white-text"></i>
                                                 <input id="form4" class="form-control" type="password" name="password">
                                                 <label for="form4" class="white-text">Password</label>
-                                            </div>
-               
+                                            </div>                                                                                             
 
                                         </form>
 
@@ -250,63 +269,7 @@
             </div>
         </div>
 
-        <!--Footer Links-->
-        <div class="container mt-5 mb-4 text-center text-md-left">
-            <div class="row mt-3">
-
-                <!--First column-->
-                <div class="col-md-3 col-lg-4 col-xl-3 mb-4">
-                    <h6 class="text-uppercase font-weight-bold"><strong>Company name</strong></h6>
-                    <hr class="blue mb-4 mt-0 d-inline-block mx-auto" style="width: 60px;">
-                    <p>Here you can use rows and columns here to organize your footer content. Lorem ipsum dolor sit amet, consectetur
-                        adipisicing elit.</p>
-                </div>
-                <!--/.First column-->
-
-                <!--Second column-->
-                <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-4">
-                    <h6 class="text-uppercase font-weight-bold"><strong>Products</strong></h6>
-                    <hr class="blue mb-4 mt-0 d-inline-block mx-auto" style="width: 60px;">
-                    <p><a href="#!">MDBootstrap</a></p>
-                    <p><a href="#!">MDWordPress</a></p>
-                    <p><a href="#!">BrandFlow</a></p>
-                    <p><a href="#!">Bootstrap Angular</a></p>
-                </div>
-                <!--/.Second column-->
-
-                <!--Third column-->
-                <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-4">
-                    <h6 class="text-uppercase font-weight-bold"><strong>Useful links</strong></h6>
-                    <hr class="blue mb-4 mt-0 d-inline-block mx-auto" style="width: 60px;">
-                    <p><a href="#!">Your Account</a></p>
-                    <p><a href="#!">Become an Affiliate</a></p>
-                    <p><a href="#!">Shipping Rates</a></p>
-                    <p><a href="#!">Help</a></p>
-                </div>
-                <!--/.Third column-->
-
-                <!--Fourth column-->
-                <div class="col-md-4 col-lg-3 col-xl-3">
-                    <h6 class="text-uppercase font-weight-bold"><strong>Contact</strong></h6>
-                    <hr class="blue mb-4 mt-0 d-inline-block mx-auto" style="width: 60px;">
-                    <p><i class="fa fa-home mr-3"></i> New York, NY 10012, US</p>
-                    <p><i class="fa fa-envelope mr-3"></i> info@example.com</p>
-                    <p><i class="fa fa-phone mr-3"></i> + 01 234 567 88</p>
-                    <p><i class="fa fa-print mr-3"></i> + 01 234 567 89</p>
-                </div>
-                <!--/.Fourth column-->
-
-            </div>
-        </div>
-        <!--/.Footer Links-->
-
-        <!-- Copyright-->
-        <div class="footer-copyright py-3 text-center">
-            <div class="container-fluid">
-                © 2018 Copyright: <a href="https://mdbootstrap.com/bootstrap-tutorial/" target="_blank"> MDBootstrap.com </a>
-            </div>
-        </div>
-        <!--/.Copyright -->
+       
 
     </footer>
     <!--/.Footer-->

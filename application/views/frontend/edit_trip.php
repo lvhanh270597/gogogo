@@ -104,11 +104,11 @@
                             <div class="card-body text-center">
                                 <img src="https://scontent.fsgn5-7.fna.fbcdn.net/v/t39.1997-6/s168x128/851582_488524031261042_690174590_n.png?_nc_cat=1&oh=e0db0fafa1fd62d1f358046ad1a77d0e&oe=5C1A14E9" alt="User Photo" class="z-depth-1 mb-3 mx-auto" />                                
                                 <div class="row flex-center">
-                                    <button class="btn btn-info btn-rounded btn-sm">
                                     <a href="<?php echo site_url('user/'.$trip['id_boss']); ?>"> 
-                                    <?php echo $owner['full_name']; ?>
+                                        <button class="btn btn-info btn-rounded btn-sm">                                    
+                                            <?php echo $owner['full_name']; ?>                                    
+                                        </button><br>                                    
                                     </a>
-                                    </button><br>                                    
                                 </div>
                             </div>
                             <!-- /.Card content -->
@@ -195,6 +195,24 @@
                                     <!-- /.Fourth row -->                                    
                                 </form>
                                 <!-- Edit Form -->
+
+                                <?php
+                                foreach ($requests as $request){
+                                    echo '<div class="row">';                                                            
+                                    echo '
+                                        <div class="col-md-12">'.'
+                                            <strong> <a href="'.site_url('user/'.$request['id_guess']).'">'.$request['id_guess'].'</strong> </a> đã gửi yêu cầu đi chuyến của bạn!
+                                            <a href="'.site_url('home/verify/'.$boss.'/'.$request['id_guess']).'"> 
+                                                <button class="btn btn-primary btn-rounded"> Accept </button>
+                                            </a>
+                                            <a href="'.site_url('home/deny_requests/'.$boss.'/'.$request['id_guess']).'"> 
+                                                <button class="btn btn-danger btn-rounded"> Deny </button>
+                                            </a>
+                                        </div>
+                                    </div>';
+                                }                                
+
+                                ?>                                
                             </div>                           
                             <!-- /.Card content -->
 

@@ -11,7 +11,7 @@ class Trip extends Quickaccess
 	public $birthdate; 
 	public $image;
 	public $bio;
-	protected $primary = 'id';
+	protected $primary = 'id_boss';
 	protected $db_table = 'trips';
 	protected $editable_fields = ['_from','_to','note', 'timestart'];
 
@@ -31,6 +31,16 @@ class Trip extends Quickaccess
 				return $map[$field];
 			}
 		}
+		//------------------------ check more
+		$from = $this->input->post('_from');
+		$to = $this->input->post('_to');
+		if ($from == $to){
+			return 'Điểm đi và điểm đến không thể trùng nhau';
+		}
+		if ($from != 'KTX B' && $to != 'KTX B'){
+			return 'Điểm đi hoặc điểm đến phải là KTX B';
+		}
+		//------------------------
 		return null;
 	}
 

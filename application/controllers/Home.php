@@ -3,13 +3,43 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Home extends CI_Controller {
 
+    public $price;
+    public $endSwith;
     public function __construct(){
         parent::__construct();
         $this->load->model('user_model');
         $this->load->model('trip');
         $this->load->model('matched');
+        $this->load->model('request');
+        $this->load->model('history');
         $this->load->helper('layout');
-        
+        //-------------------------------------------
+        $this->price = array();
+
+        $address = array(
+            'ĐH Nông Lâm' => 3,                        
+            'ĐH Nhân Văn' => 3,     
+            'ĐH Công Nghệ Thông Tin' => 4,       
+            'ĐH Khoa Học Tự Nhiên' => 3,
+            'ĐH Quốc Tế' => 2,
+            'ĐH Bách Khoa' => 3,
+            'ĐH Kinh Tế - Luật' => 5,
+        );        
+
+        foreach ($address as $key => $value){
+            $this->price['KTX B'.$key] = $value;
+            $this->price[$key.'KTX B'] = $value;
+        }
+
+        $this->endSwith = array(
+            'ĐH Bách Khoa' => 'hcmut.edu.vn',
+            'ĐH Công Nghệ Thông Tin' => 'gm.uit.edu.vn',
+            'ĐH Nhân Văn' => 'hcmussh.edu.vn',
+            'ĐH Kinh Tế - Luật' => 'st.uel.edu.vn',
+            'ĐH Nông Lâm' => 'st.hcmuaf.edu.vn',
+            'ĐH Quốc Tế' => 'mp.hcmiu.edu.vn',
+            'ĐH Khoa Học Tự Nhiên' => 'student.hcmus.edu.vn'
+        );
     }
 
 	public function index()
@@ -29,6 +59,18 @@ class Home extends CI_Controller {
             'all' => $this->trip->get_all2(),
             'map_image' => $map
         );                
+
+        $my_trip = null;
+        if ($this->session->userdata('user_logged')){
+            $user = $this->session->userdata('username');
+            $my_trip = $this->matched->get_matched_from_guess($user);
+            if ($my_trip == null){
+                $my_trip = $this->trip->get_by_id($user);                                               
+            } else{
+                $my_trip = $this->trip->get_by_id($my_trip['id_boss']);                                               
+            }
+        }        
+        $data['my_trip'] = $my_trip;
         display('home', $data);
     }
     
@@ -36,12 +78,25 @@ class Home extends CI_Controller {
         if ($this->session->userdata('user_logged')) {
             redirect('home');
         }
+        $data = array('error' => null);
         if ($this->input->post()){   
             $username = $this->input->post('username');
-            $password = $this->input->post('password');                       
-            $this->user_model->validate($username, $password);
+            $password = $this->input->post('password'); 
+            
+            if ($this->user_model->check_verify($username)){
+                $data['error'] = $this->user_model->validate($username, $password);
+            }            
+            else{
+                $data['error'] = 'Tài khoản của bạn chưa được xác thực';
+            }
         }
-        display('login', null, true);
+        if ($data['error']){
+            $data['error'] = '<div class="alert alert-danger"> <strong> Lỗi! </strong>'.$data['error'].'!</div>';
+        }
+        else{
+            $data['error'] = '';
+        }
+        display('login', $data, true);
     } 
 
     public function logout(){
@@ -58,30 +113,20 @@ class Home extends CI_Controller {
             if ($data['error'] = $this->user_model->check()){
                 $data['error'] = '<div class="alert alert-danger"> <strong> Lỗi! </strong>'.$data['error'].'!</div>';
             } else{
-                if($this->user_model->add()){	
-                    $this->user_model->user_log_in($this->input->post('username'));
-                    redirect(base_url());
-                }   
+                $this->sendMail();
             }
         }
         //load a view
         display('register', $data, true);
     }
 
-    public function users(){
-        $all = $this->user_model->get_all2();
-        $data = array(
-            'all' => $all
-        );
-        print_r($data);
-    }
-
-    public function add_a_trip(){
+    public function add_a_trip(){       
 
         $trip = $this->trip->get_trip_from_boss($this->session->userdata('username'));
         if ($trip != null) {
             redirect('edit_trip');
         }
+
 
         $customer_id = $this->session->userdata('username');		
 		//load a view
@@ -92,7 +137,21 @@ class Home extends CI_Controller {
             $test = $this->trip->check();
             if ($test == null){
                 //add                
-                $this->trip->add();     
+                $sql = array(
+                    '_from' => $this->input->post('_from'),
+                    '_to' => $this->input->post('_to'),			
+                    'note' => $this->input->post('note'),
+                    'timestart' => $this->input->post('timestart'),    
+                    'id_boss' => $this->session->userdata('username')                
+                );
+                $sql['price'] = $this->price[$sql['_from'].$sql['_to']];
+
+                $this->trip->add_into($sql);
+
+                // update money
+
+                //
+
                 $data['success'] = '<div class="alert alert-success"> <strong> Thành công!!! </strong> Bạn có thể về Trang chủ để xem chuyến đi của mình! </div>';
             }
             else{
@@ -111,80 +170,263 @@ class Home extends CI_Controller {
                 redirect('add_a_trip');
             }
             else{
-                $trip = $this->trip->get_by_id($match['trip_id']);
-                $data = array(
-                    'trip' => $trip
-                );     
-                redirect('detail/'.$match['trip_id']);        
+                $trip = $this->trip->get_by_id($match['id_boss']);                
+                redirect('detail/'.$match['id_boss']);        
             }
         }
+
+        $all_request = $this->request->get_all2();
         $data = array(
-            'trip' => $trip
-        );
+            'trip' => $trip,
+            'requests' => $all_request,
+            'boss' => $this->session->userdata('username')            
+        );        
         display('edit_trip', $data, true);           
     }
 
     public function remove_trip(){
         if ($this->input->post('btn')){            
             $trip = $this->trip->get_trip_from_boss($this->session->userdata('username'));        
-            $this->trip->delete($trip['id']);
+            $this->trip->delete($trip['id_boss']);
+
+            // push to history from matched
+            $boss = $this->session->userdata('username');
+            $data = $this->matched->get_by_trip($boss);
+            if ($data != null){
+                $this->history->add_into($data);
+            }
+            // remove all matched and request
+            $this->request->delete_all_request($boss);
+            $this->matched->delete_all_from_boss($boss);
             redirect(base_url());
         }
     }
 
     public function detail($id){
+
+        if (!$this->session->userdata('user_logged')) {
+            redirect('login');
+        }
+
         $data['trip'] = $this->trip->get_by_id($id);
         $data['success'] = '';
         $data['error'] = '';
+        
         if ($this->input->post()){       
             $trip = $data['trip'];                                                 
             $boss = $this->user_model->get_by_id($trip['id_boss']);
-            if ($boss['balance'] >= 0){
-                $guess = $this->user_model->get_by_id($this->session->userdata('username'));
-                if ($guess['balance'] >= 2){
-                    $this->user_model->add_money($guess['username'], -2);
-                    $this->user_model->add_money($boss['username'], +1.5);
-
-                    $item = array(
-                        'id_boss' => $boss['username'],
-                        'id_guess' => $guess['username'],
-                        'trip_id' => $id
-                    );
-                    $this->matched->add_into($item);    
-
-                    $trip = $data['trip'];
-                    $trip['_empty'] = true;
-                    $this->trip->update($trip['id'], $trip);
-                    $data['success'] = '<div class="alert alert-success"> <strong> Thành công!!! </strong> Hãy đến đó đúng giờ nhé! </div>';
-                } else{
-                    $data['error'] = '<div class="alert alert-danger"> <strong> Thất bại!!! </strong> Số tiền của bạn không đủ. </div>';
-                }            
-            } 
-            else{                
-                $this->user_model->add_money($boss['username'], +1.5);
-
-                $item = array(
-                    'id_boss' => $boss['username'],
-                    'id_guess' => $this->session->userdata('username'),
-                    'trip_id' => $id
-                );
-                $this->matched->add_into($item);    
-
-                $trip = $data['trip'];
-                $trip['_empty'] = true;
-                $this->trip->update($trip['id'], $trip);
-                $data['success'] = '<div class="alert alert-success"> <strong> Thành công!!! </strong> Hãy đến đó đúng giờ nhé! </div>';                
-            }                        
+            $guess = $this->user_model->get_by_id($this->session->userdata('username'));
+            // check balance and push to request
+            $check = $this->check_balance($trip, $boss);
+            $data = array_merge($data, $check);
+            if (!isset($check['error'])){                
+                $this->push_to_request($guess['username'], $boss['username']);
+            }            
+            
         }
-        
+        $data['fee'] = 0.5;
+        $all_request = $this->request->get_all2();
+        $data['requests'] = $all_request;
+        $data['boss'] = $id;        
+
         display('detail', $data, true);
     }
 
+    function check_balance($trip, $boss){
+        $fee = 0.5;
+        $price = $trip['price'] + $fee;
+
+        $data = array();
+        $guess = $this->user_model->get_by_id($this->session->userdata('username'));    
+        if ($boss['balance'] >= 0){                        
+            if ($guess['balance'] >= $price){            
+                $data['success'] = '<div class="alert alert-success"> <strong> Thành công!!! </strong> Bạn đã gửi yêu cầu đến <strong>'.$boss['username'].'</strong>! 
+                Hãy đợi họ đồng ý nhé!
+                </div>';
+            } else{
+                $data['error'] = '<div class="alert alert-danger"> <strong> Thất bại!!! </strong> Số tiền của bạn không đủ. </div>';                
+            }            
+        } 
+        else{                                          
+            $data['success'] = '<div class="alert alert-success"> <strong> Thành công!!! </strong> Bạn đã gửi yêu cầu đến <strong>'.$boss['username'].'</strong>! 
+                Hãy đợi họ đồng ý nhé!
+                </div>';
+        }      
+        return $data;
+    }
+
+    function transfer_money($guess, $boss, $price, $fee){
+        $this->user_model->add_money($guess, -$price);
+        $this->user_model->add_money($boss, $price - $fee);
+        // transfer to my_account
+    }
+
+    // khi nhan vao Accept. No se vao Verify nay
+    function verify($boss, $guess){
+        $cur_user = $this->session->userdata('username');
+        if ($cur_user != $boss){
+            return ;
+        }
+        $trip = $this->trip->get_by_id($cur_user);
+        if ($trip == null){
+            return ;
+        }
+
+        $fee = 0.5;
+        $price = $trip['price'] + $fee;
+
+        $this->transfer_money($guess, $boss, $price, $fee);
+
+        $this->push_to_matched($boss, $guess);
+
+        $this->occupate_trip($trip);
+
+        $this->delete_all_request($boss);
+
+        $this->delete_all_request_guess($guess);
+
+        redirect('edit_trip');
+    }
+
+    function delete_all_request($boss){
+        $this->request->delete_all_request($boss);
+    }
+
+    function delete_all_request_guess($guess){
+        $this->request->delete_all_request_guess($guess);
+    }
+
+    function push_to_matched($boss, $guess){
+        $item = array(
+            'id_boss' => $boss,
+            'id_guess' => $guess,
+        );
+        $this->matched->add_into($item);    
+    }
+
+    function occupate_trip($trip){
+        $trip['occup'] = true;
+        $this->trip->update($trip['id_boss'], $trip);
+    }
+
+    function push_to_request($guess, $boss){
+        $data = array(
+            'id_boss' => $boss,
+            'id_guess' => $guess
+        );
+        $this->request->add_into($data);
+    }
+
+    function deny_requests($boss, $guess){
+        $this->request->remove_requests($boss, $guess);
+
+        redirect('edit_trip');
+    }
+ 
     public function user($username){
         $user_info = $this->user_model->get_by_id($username);
+        if ($user_info == null){
+            return ;
+        }
         unset($user_info['password']);
         unset($user_info['balance']);
         display('user_detail', $user_info, true);
     }
 
+    public function users(){
+        $users = $this->user_model->get_all2();
+        $data = array(
+            'users' => $users
+        );
+        display('all_users', $data, true);
+    }
+
+    public function matches(){
+        $matches = $this->history->get_all2();
+        $data = array(
+            'matches' => $matches
+        );
+        display('all_matches', $data, true);
+    }
+
+
+    function sendMail()
+	{
+		$hash = md5( rand(0,1000) );
+		$name = $this->input->post('username');
+        $password = $this->input->post('password');		
+        $mssv = $this->input->post('mssv');
+        $university = $this->input->post('university');
+
+        // check mssv                                        
+        $email = $mssv.'@'.$this->endSwith[$university];
+		$to      = $email; // Send email to our user
+		$subject = 'Signup | Verification'; // Give the email a subject 
+		$message = '
+		
+		Thanks for signing up!
+		Your account has been created, you can login with the following credentials after you have activated your account by pressing the url below.
+		
+		------------------------
+		Username: '.$name.'
+		Password: '.$password.'
+		------------------------
+		
+		Please click this link to activate your account:
+		http://localhost/easyhere/home/verify_mail/'.$name.'/'.$mssv.'/'.$hash.'
+		
+		'; // Our message above including the link
+							
+        $headers = 'From:noreply@easyhere.tk' . "\n"; // Set from headers
+        
+        // push to database
+        $password = $this->input->post('password');
+        $password = password_hash($password, PASSWORD_DEFAULT, ['cost' => 11]);		
+        $data = array(
+            'username' => $this->input->post('username'),
+            'password' => $password,
+            'full_name' => $this->input->post('full_name'),
+            'phone_num' => $this->input->post('phone_num'),
+            'facebook' => $this->input->post('facebook'),
+            'balance' => 0,
+            'verify' => false,
+            'mssv' => $this->input->post('mssv'),
+            'university' => $this->input->post('university'),
+            'hash' => $hash            
+        );        
+        
+		//if (mail($to, $subject, $message, $headers)) {			
+            $this->user_model->add_into($data);
+            redirect('home/success_verify'); 
+		//}
+		//else{
+		//	redirect('home/verify_fail');
+		//}
+    }	
+    
+    function success_verify(){
+        display('verify', null, true);
+    }
+
+    function verify_fail(){
+        display('verify_fail', null, true);
+    }
+
+    function verify_mail($username, $mssv, $hash){
+        if ($this->user_model->check_verify($username)){
+            redirect('login');
+        }
+
+        if ($this->user_model->verify($username, $mssv, $hash)){
+            echo 'OK';
+            $user = $this->user_model->get_by_id($username);
+            $user['verify'] = true;
+            $this->user_model->update($username, $user);
+            redirect('login');
+        }
+        else{
+            echo 'NO';
+        }
+    }
+    
 }

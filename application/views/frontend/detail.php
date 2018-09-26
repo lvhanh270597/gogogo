@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -105,11 +104,11 @@
                             <div class="card-body text-center">
                                 <img src="https://scontent.fsgn5-7.fna.fbcdn.net/v/t39.1997-6/s168x128/851582_488524031261042_690174590_n.png?_nc_cat=1&oh=e0db0fafa1fd62d1f358046ad1a77d0e&oe=5C1A14E9" alt="User Photo" class="z-depth-1 mb-3 mx-auto" />                                
                                 <div class="row flex-center">
-                                    <button class="btn btn-info btn-rounded btn-sm">
                                     <a href="<?php echo site_url('user/'.$trip['id_boss']); ?>"> 
-                                    <?php echo $owner['full_name']; ?>
-                                    </a>
-                                    </button><br>                                    
+                                        <button class="btn btn-info btn-rounded btn-sm">                                    
+                                        <?php echo $owner['full_name']; ?>                                    
+                                    </button><br>                         
+                                    </a>           
                                 </div>
                             </div>
                             <!-- /.Card content -->
@@ -169,10 +168,16 @@
                                         </div>
                                         <!--Second row-->                                    
                                         <!--First column-->
-                                        <div class="col-md-6">
+                                        <div class="col-md-3">
                                             <div class="md-form mb-0">
                                                 <input type="text" id="form76" class="form-control validate" name="timestart" value="<?php echo $trip['timestart']; ?>" disabled>
                                                 <label for="form76">Xuất phát lúc</label>
+                                            </div>
+                                        </div>    
+                                        <div class="col-md-3">
+                                            <div class="md-form mb-0">
+                                                <input type="text" id="form76" class="form-control validate" name="timestart" value="<?php echo ($trip['price'] + $fee) * 1000; ?>đ" disabled>
+                                                <label for="form76">Giá</label>
                                             </div>
                                         </div>    
                                     </div>                                                                        
@@ -180,8 +185,7 @@
                                     <div class="row">
                                         <div class="col-md-12">
                                             <div class="md-form mb-0">
-                                                <textarea type="text" id="form78" class="md-textarea form-control" rows="3" name="note" disabled>
-                                                <?php echo $trip['note']; ?> 
+                                                <textarea type="text" class="md-textarea form-control" rows="3" name="note" disabled><?php echo $trip['note']; ?> 
                                                 </textarea>
                                                 <label for="form78">Ghi chú</label>
                                             </div>
@@ -193,17 +197,24 @@
                                     <div class="row">
                                         <div class="col-md-12 text-center my-4">                                            
                                             <?php
-                                            if ($trip['_empty'] == false)
-                                                echo '<input type="submit" value="Đặt chuyến" class="btn btn-info btn-rounded" name="btn">';
-                                            else{
-                                                $match = $this->matched->get_by_trip($trip['id']);
-                                                $guess = '<a href="'.site_url('user/'.$match['id_guess']).'">'.$match['id_guess'].'</a>';
-                                                echo '<div class="alert alert-info">
-                                                <strong>'.$guess.'</strong> cũng đã tham gia vào chuyến đi.
-                                              </div>';
+                                            if ($trip['occup'] == false){
+                                                if ($trip['id_boss'] != $this->session->userdata('username')) {
+                                                    echo '<input type="submit" value="Đặt chuyến" class="btn btn-info btn-rounded" name="btn">';
+                                                }
+                                                else{
+                                                    echo '<div class="alert alert-warning">
+                                                    Chưa ai cùng bạn trong chuyến đi này!
+                                                </div>';
+                                                }
+                                            }
+                                            else {
+                                                    $match = $this->matched->get_by_trip($trip['id_boss']);
+                                                    $guess = '<a href="'.site_url('user/'.$match['id_guess']).'">'.$match['id_guess'].'</a>';
+                                                    echo '<div class="alert alert-info">
+                                                    <strong>'.$guess.'</strong> đã tham gia vào chuyến đi.
+                                                </div>';
                                             }
                                             ?>                                            
-
                                         </div>
                                     </div>                                    
                                     <!-- /.Fourth row -->       
@@ -211,9 +222,20 @@
                                         <div class="col-md-12">
                                             <?php echo $error; ?>
                                         </div>
-                                    </div>                               
-                                </form>
+                                    </div>                                                               
+                                </form>                                
                                 <!-- Edit Form -->
+
+                                <?php
+                                foreach ($requests as $request){
+                                    echo '<div class="row">';                                                            
+                                    echo '
+                                        <div class="col-md-12">'.'
+                                            <strong> <a href="'.site_url('user/'.$request['id_guess']).'">'.$request['id_guess'].'</strong> </a> đã gửi yêu cầu tới chuyến đi này!                                            
+                                        </div>
+                                    </div>';
+                                }                                
+                                ?> 
                             </div>                           
                             <!-- /.Card content -->
 

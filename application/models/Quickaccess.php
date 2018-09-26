@@ -37,7 +37,7 @@ class Quickaccess extends CI_Model{
 		//prepare an array of data for adding to a DB table
 		$data = $this->instantiate();				
 		if ($this->db_table == 'trips'){
-			$data['id_boss'] = $this->session->userdata('username');
+			$data['id_boss'] = $this->session->userdata('username');			
 		}		
 		$this->db->insert($this->db_table, $data);				
 		return $this->db->affected_rows() > 0 ? true : false;

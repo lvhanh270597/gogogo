@@ -43,6 +43,24 @@ class Admin extends CI_Controller {
 	public function logout(){
 		$this->session->sess_destroy();
 		redirect('admin/login');
-	} 
+	} 	
+
+	public function prices(){
+		$address = array(
+            'ĐH Nông Lâm' => 3,                        
+            'ĐH Nhân Văn' => 3,     
+            'ĐH Công Nghệ Thông Tin' => 4,       
+            'ĐH Khoa Học Tự Nhiên' => 3,
+            'ĐH Quốc Tế' => 2,
+            'ĐH Bách Khoa' => 3,
+            'ĐH Kinh Tế - Luật' => 5,
+		);  
+		$data = array('prices' => $address);
+		display('prices', $data, true);
+	}
+
+	public function verify_code($code){
+		$username
+	}
 
 }

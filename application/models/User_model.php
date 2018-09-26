@@ -14,11 +14,12 @@ class User_model extends Quickaccess
 	protected $primary = 'username';
 	protected $db_table = 'users';
 	protected $personal_info = ['full_name'];
-	protected $editable_fields = ['username','full_name','password','facebook', 'phone_num'];
+	protected $editable_fields = ['username','full_name','password','facebook', 'phone_num', 'mssv', 'university'];
 
 	public function __construct()
 	{
-		parent::__construct();		
+		parent::__construct();	
+		$this->load->helper('string');	
 	}
 //get a customer's info with an address
 	public function get_user_info($username){
@@ -51,13 +52,13 @@ class User_model extends Quickaccess
 			if($login_info === $username){
 				if(password_verify($password, $user->password)){										
 					$this->user_log_in($user->username);					
+					return null;
 				} else{
-					$this->session->set_flashdata(["login_message" => "Username/Password combination is incorrect"]);
+					return 'Username/Password combination is incorrect';
 				}
-			} else {
-				$this->session->set_flashdata(["login_message" => "Username/Password combination is incorrect"]);
 			}
 		}
+		return null;
 	}
 	public function user_log_in($username){
 		if ($username){
@@ -87,23 +88,88 @@ class User_model extends Quickaccess
 	}
 	
 
-	public function check(){
+	public function check(){                        
+			
 		$error = array(
 			'username' => 'Bạn phải nhập Username',
 			'full_name' => 'Bạn phải nhập Tên đầy đủ',
 			'password' => 'Bạn phải nhập Mật khẩu',
 			'facebook' => 'Bạn phải nhập Địa chỉ Facebook',
-			'phone_num' => 'Bạn phải nhập Số điện thoại'
+			'phone_num' => 'Bạn phải nhập Số điện thoại',
+			'mssv' => 'Để an toàn. Chúng tôi phải chắc bạn là sinh viên.',
+            'university' => 'Bạn phải chọn một trường. Vì là sinh viên.',
 		);
+
 		foreach ($this->editable_fields as $field){
 			if ($this->input->post($field) == null){
 				return $error[$field];
 			}
 		}
+
+		// check link facebook profile
+		$facebook = $this->input->post('facebook');
+		if (!checkFacebook($facebook)){
+			return 'Bạn cần nhập link facebook profile đúng!';
+		}
+
+		// check validation username
+		$username = $this->input->post('username');
+		// check validation username
+		$username = $this->input->post('username');
+		if ($error = checkUsername($username)){
+			if ($error !== true){
+				return $error;
+			}
+		}
+		
+		/*if (is_numeric($username[0])){
+			return 'Tên đăng nhập không được bắt đầu bằng chữ số';
+		}
+		if (hasSpace($username)){
+			return 'Tên đăng nhập không được có dấu cách';
+		}
+		if (hasSpecialCharacter($username)){
+			return 'Tên đăng nhập không được chứa kí tự đặc biệt';
+		}
+		*/
 		$user = $this->get_by_id($this->input->post('username'));
 		if ($user != null){
 			return 'Tên '.$this->input->post('username').' đã tồn tại.';
 		}
+		// end check
+
+		// check password
+		$password = $this->input->post('password');
+		if (strlen($password) < 4){
+			return 'Mật khẩu nên nhiều hơn 3 kí tự';
+		}
+		// check mssv
+		$mssv = $this->input->post('mssv');
+		if (!is_numeric($mssv)){
+			return 'Bạn phải chắc rằng mã số sinh viên của mình là đúng!';
+		}
+
 		return null;
+	}
+
+	public function check_verify($username){
+		$query = $this->db->get_where($this->db_table, array(
+			'username' => $username			
+		));
+		if ($query->num_rows() != 1){
+			return false;
+		}
+		else{
+			$user = $query->result_array()[0];
+			return $user['verify'];
+		}
+	}
+
+	public function verify($username, $mssv, $hash){
+		$query = $this->db->get_where($this->db_table, array(
+			'username' => $username			
+		));
+		$user = $query->result_array()[0];		
+		return ($user['mssv'] == $mssv) && ($user['hash'] == $hash);
 	}
 }

@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <link rel="shortcut icon" href="<?php  echo base_url().'/themes/SA.png'; ?>" />
-    <title>Trip control</title>
+    <title>User control</title>
 
     <link href="assets/beauty/profile/css/bootstrap.min.css" rel="stylesheet">
     <!-- Bootstrap core CSS -->    
@@ -18,36 +18,29 @@
   <body>
 
 <div class="container">
-	<h3 class="mt-4 mb-3">Trips management </h3>
+	<h3 class="mt-4 mb-3">All of Users</h3>
 	<table class="table table-hover">
     <thead>
       <tr>
-        <th>ID</th>
-        <th>From</th>
-        <th>To</th>
-        <th>Occupation</th>
-        <th>Owner</th>
-        <th>Delete</th>        
+        <th>Username</th>
+        <th>Name</th>
+        <th>Phone</th>
+		<th>Facebook</th>        
       </tr>
     </thead>
     <tbody>    
 	    <?php
-      $id = 0;
-			foreach ($trips as $trip) {
-				$id += 1;
-				$from = $trip['_from'];
-                $to = $trip['_to'];                
-                $occupa = $trip['occup'];
-                if ($occupa == 0) $occupa = 'No';
-                else $occupa = 'Yes';
-				$owner = $trip['id_boss'];
+			foreach ($users as $user) {
+				$username = $user['username'];
+				$name = $user['full_name'];
+				$phone = $user['phone_num'];
+				$facebook = $user['facebook'];
+				$balance = $user['balance'];
 				echo '<tr>';				
-				echo '<td> <a href="'.site_url('detail/'.$id).'"> '.$id.' </a> </td>';
-				echo '<td> '.$from.' </td>';
-				echo '<td> '.$to.' </td>';
-				echo '<td> '.$occupa.' </td>';
-				echo '<td> '.$owner.' </td>';
-				echo '<td> <a href="'.site_url('trip_control/remove_trip/'.$id).'"> Delete </a> </td>';				
+				echo '<td> <a href="'.site_url('user/'.$username).'"> '.$username.' </a> </td>';
+				echo '<td> '.$name.' </td>';
+				echo '<td> '.$phone.' </td>';
+				echo '<td> '.$facebook.' </td>';								
 				echo '</tr>';
 			}
 		?>       
