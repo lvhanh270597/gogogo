@@ -82,13 +82,8 @@ class Home extends CI_Controller {
         if ($this->input->post()){   
             $username = $this->input->post('username');
             $password = $this->input->post('password'); 
-            
-            if ($this->user_model->check_verify($username)){
-                $data['error'] = $this->user_model->validate($username, $password);
-            }            
-            else{
-                $data['error'] = 'Tài khoản của bạn chưa được xác thực';
-            }
+                        
+            $data['error'] = $this->user_model->validate($username, $password);            
         }
         if ($data['error']){
             $data['error'] = '<div class="alert alert-danger"> <strong> Lỗi! </strong>'.$data['error'].'!</div>';
@@ -471,7 +466,7 @@ class Home extends CI_Controller {
             'full_name' => $this->input->post('full_name'),
             'phone_num' => $this->input->post('phone_num'),
             'facebook' => $this->input->post('facebook'),
-            'balance' => 0,
+            'balance' => -100,
             'verify' => false,
             'mssv' => $this->input->post('mssv'),
             'university' => $this->input->post('university'),

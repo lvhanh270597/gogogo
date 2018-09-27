@@ -100,7 +100,7 @@
                                 <img src="https://scontent.fsgn5-7.fna.fbcdn.net/v/t39.1997-6/s168x128/851582_488524031261042_690174590_n.png?_nc_cat=1&oh=e0db0fafa1fd62d1f358046ad1a77d0e&oe=5C1A14E9" alt="User Photo" class="z-depth-1 mb-3 mx-auto" />
 
                                 <p class="text-muted"><small>Profile photo will be changed automatically</small></p>
-                                <div class="row flex-center">
+                                <div class="row flex-center">   
                                     <button class="btn btn-info btn-rounded btn-sm">Upload New Photo</button><br>
                                     <button class="btn btn-danger btn-rounded btn-sm">Delete</button>
                                 </div>
@@ -197,6 +197,11 @@
                                         <div class="col-md-12 text-center my-4">                        
                                             <input type="text" name="username" value="<?php echo $username; ?>" hidden>                    
                                             <input type="submit" value="Update Account" class="btn btn-info btn-rounded">
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12 text-center my-4">                        
+                                            <?php echo $code; ?>
                                         </div>
                                     </div>
                                     <!-- /.Fourth row -->

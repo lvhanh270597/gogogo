@@ -187,13 +187,13 @@
                                             </div>
                                         </div>
                                         <!--Second column-->
-                                        <div class="col-md-6">
+                                        <div class="col-md-3">
                                             <div class="md-form mb-0">
                                                 <input type="text" id="form77" class="form-control validate" value="<?php echo $mssv; ?>" disabled>
-                                                <label for="form77" data-error="wrong" data-success="right">Mssv</label>
+                                                <label for="form77" data-error="wrong" data-success="right">MSSV</label>
                                             </div>
-                                        </div>                                        
-                                    </div>
+                                        </div>              
+                                    </div>                                    
                                     <!--/.Third row-->
                                     <!-- Fourth row -->
                                     <div class="row">

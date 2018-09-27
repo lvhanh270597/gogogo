@@ -7,6 +7,7 @@ class Profile extends CI_Controller {
 	public function __construct(){
 		parent::__construct();		
 		$this->load->model('user_model');
+		$this->load->model('matched');
 		$this->load->helper('layout');
 	}
 
@@ -46,6 +47,13 @@ class Profile extends CI_Controller {
 		$data = $this->user_model->get_by_id($customer_id);
 		
 		$data['message'] = $message;
+		
+		//
+		$match = $this->matched->get_matched_from_guess($customer_id);
+		$data['code'] = '';
+		if ($match != null){
+			$data['code'] = '<div class="alert alert-info"> Mã số bí mật của chuyến đi là <strong> '.$match['code'].' </strong>  </div>';
+		}
 
 		display('profile', $data, true);
 	}

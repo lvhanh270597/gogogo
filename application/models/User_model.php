@@ -144,10 +144,7 @@ class User_model extends Quickaccess
 			return 'Mật khẩu nên nhiều hơn 3 kí tự';
 		}
 		// check mssv
-		$mssv = $this->input->post('mssv');
-		if (!is_numeric($mssv)){
-			return 'Bạn phải chắc rằng mã số sinh viên của mình là đúng!';
-		}
+		$mssv = $this->input->post('mssv');		
 
 		return null;
 	}
