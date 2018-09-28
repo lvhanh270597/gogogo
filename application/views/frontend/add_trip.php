@@ -14,6 +14,23 @@
     <!-- Material Design Bootstrap -->
     <link rel="stylesheet" href="assets/beauty/profile/css/mdb.min.css">
     <link rel="shortcut icon" type="image/x-icon" href="<?php echo 'assets/images/icon/icon.jpg'; ?>" />
+
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha384-nvAa0+6Qg9clwYCGGPpDQLVpLNn0fRaROjHqs13t4Ggj3Ez50XnGQqc/r8MhnRDZ" crossorigin="anonymous"></script>
+    
+
+    
+    <link href="assets/datetime/css/datetimepicker.css" rel="stylesheet" type="text/css"/>    
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.0/moment-with-locales.min.js"></script>
+    <script type="text/javascript" src="assets/datetime/js/datetimepicker.js"></script>
+    <link href="https://www.jqueryscript.net/css/jquerysctipttop.css" rel="stylesheet" type="text/css">
+
+    <script type="text/javascript">
+    $(document).ready( function () {
+        $('#picker').dateTimePicker();
+        $('#picker-no-time').dateTimePicker({ showTime: false, dateFormat: 'DD/MM/YYYY'});
+    })
+    </script>
+
     <!-- Your custom styles (optional) -->
     <style>
         .card.card-cascade .view.gradient-card-header {
@@ -177,7 +194,29 @@
                                     </div>
                                     <!--/.First row-->
                                     <!--First row-->
-                                    <div class="row">
+                                    <div class="row">                                        
+                                        <!--Second row-->                                    
+                                        <!--First column-->
+                                        <div class="col-md-6">                                                                                        
+
+                                            <div class="md-form mb-0">
+                                                <div id="picker"></div>
+                                                <input style="display: none" id="result" value="" name="timestart"/>                                            
+                                                <script type="text/javascript">
+                                                    var _gaq = _gaq || [];
+                                                    _gaq.push(['_setAccount', 'UA-36251023-1']);
+                                                    _gaq.push(['_setDomainName', 'jqueryscript.net']);
+                                                    _gaq.push(['_trackPageview']);
+
+                                                    (function() {
+                                                        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+                                                        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+                                                        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+                                                    })();
+                                                </script>                                            
+                                                                                                
+                                            </div>                                        
+                                        </div>    
                                         <!--First column-->
                                         <div class="col-md-6">
                                             <div class="md-form mb-0">
@@ -185,14 +224,6 @@
                                                 <label for="form2" data-error="wrong" data-success="right">Bạn là</label>
                                             </div>
                                         </div>
-                                        <!--Second row-->                                    
-                                        <!--First column-->
-                                        <div class="col-md-6">
-                                            <div class="md-form mb-0">
-                                                <input type="text" id="form76" class="form-control validate" name="timestart">
-                                                <label for="form76">Đi lúc mấy giờ?</label>
-                                            </div>
-                                        </div>    
                                     </div>                                                                                                           
                                     <!--Third row-->
                                     <div class="row">
@@ -237,11 +268,10 @@
         </div>
     </main>
     <!--Main layout-->
-
+    
 
     <!-- SCRIPTS -->
     <!-- JQuery -->
-    <script src="assets/beauty/profile/js/jquery-3.3.1.min.js"></script>
     <!-- Bootstrap tooltips -->
     <script type="text/javascript" src="assets/beauty/profile/js/popper.min.js"></script>
     <!-- Bootstrap core JavaScript -->
